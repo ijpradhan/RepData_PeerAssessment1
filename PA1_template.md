@@ -1,4 +1,7 @@
-# Peer Assessment 1, Reproducable Research
+---
+title: "Peer Assessment 1, Reproducable Research"
+output: html_document
+---
 
 **This document contains the completed work for peer assignment #1 for the Coursera Reproducable Research class.**
 
@@ -6,14 +9,14 @@
 
 ---
 
-First, lets remove all variables from the environment
+First, I will remove all variables from the environment
 
 ```r
 #removes all variables from environment
 rm(list=ls(all=TRUE)) 
 ```
 
-Next, lets download the dataset required for this assignment.  Description of this data from course website: 
+Next, I will download the dataset required for this assignment.  Description of this data from course website: 
 
 *This assignment makes use of data from a personal activity monitoring device. This device collects data at 5 minute intervals through out the day. The data consists of two months of data from an anonymous individual collected during the months of October and November, 2012 and include the number of steps taken in 5 minute intervals each day.*
 
@@ -24,7 +27,7 @@ The variables included in this dataset are:
 2. **date**: The date on which the measurement was taken in YYYY-MM-DD format 
 3. **interval**: Identifier for the 5-minute interval in which measurement was taken
 
-Next, lets read this data into a dataframe and inspect the structure of the data
+Next, I will read this data into a dataframe and inspect the structure of the data
 
 ```r
 dat = read.csv('activity.csv', header = T)
@@ -69,13 +72,6 @@ Next, I will make a histogram of the total number of steps taken each day, but f
 
 ```r
 library(data.table)
-```
-
-```
-## Warning: package 'data.table' was built under R version 3.2.4
-```
-
-```r
 dat_tbl = data.table(dat)
 dat_tbl_summary = dat_tbl[, list(total_steps = sum(steps, na.rm = T)), 
                           by = date]
@@ -97,7 +93,7 @@ gen_hist = function(x, title){
         hist(x, 
              breaks = 20,
              main = title,
-             xlab = 'Total Number of steps', col = 'grey',
+             xlab = 'Total Number of Steps', col = 'grey',
             
              cex.main = .9)
         
@@ -117,10 +113,10 @@ gen_hist = function(x, title){
                )
 }
 
-gen_hist(dat_tbl_summary$total_steps, 'Number of steps Taken Per Day')
+gen_hist(dat_tbl_summary$total_steps, 'Number of Steps Taken Per Day')
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-3-1.png)
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.png) 
 
 
 
@@ -146,20 +142,20 @@ dat_tbl_summary_intv = dat_tbl[, list(avg_steps = mean(steps, na.rm = T)),
 #plot the time series
 with(dat_tbl_summary_intv, {
         plot(interval, avg_steps, type = 'l',
-             main = 'Average steps by Time interval',
-             xlab = '5 Minute Time interval',
-             ylab = 'Average Number of steps')
+             main = 'Average Steps by Time Interval',
+             xlab = '5 Minute Time Interval',
+             ylab = 'Average Number of Steps')
         })
-#Find interval That Has The Maximum Avg steps
+#Find Interval That Has The Maximum Avg Steps
 max_steps = dat_tbl_summary_intv[which.max(avg_steps), ]
 
 #Generate Label String
-max_lab = paste('Maximum Of ', round(max_steps$avg_steps, 1), ' steps \n On ', max_steps$interval, 'th Time interval', sep = '')
+max_lab = paste('Maximum Of ', round(max_steps$avg_steps, 1), ' Steps \n On ', max_steps$interval, 'th Time Interval', sep = '')
 
-#Collect Cooridinates of The Max interval For Graphing
+#Collect Cooridinates of The Max Interval For Graphing
 points(max_steps$interval,  max_steps$avg_steps, col = 'red', lwd = 3, pch = 19)
 
-#Add Label To Annotate Maximum # steps And interval
+#Add Label To Annotate Maximum # Steps And Interval
 legend("topright",
        legend = max_lab,
        text.col = 'red',
@@ -167,7 +163,7 @@ legend("topright",
        )
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-4-1.png)
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
 
 ---
 
@@ -215,12 +211,12 @@ head(dat_tbl_summary_miss)
 
 ```
 ##          date new_steps
-## 1: 2012-10-01  10766.19
-## 2: 2012-10-02    126.00
-## 3: 2012-10-03  11352.00
-## 4: 2012-10-04  12116.00
-## 5: 2012-10-05  13294.00
-## 6: 2012-10-06  15420.00
+## 1: 2012-10-01     10766
+## 2: 2012-10-02       126
+## 3: 2012-10-03     11352
+## 4: 2012-10-04     12116
+## 5: 2012-10-05     13294
+## 6: 2012-10-06     15420
 ```
 
 4.  Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
@@ -232,13 +228,13 @@ head(dat_tbl_summary_miss)
 gen_hist(dat_tbl_summary$total_steps, 'Missing Values Removed')
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-7-1.png)
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-71.png) 
 
 ```r
-gen_hist(dat_tbl_summary_miss$new_steps, 'Missing Values Replaced With \n Mean For interval')
+gen_hist(dat_tbl_summary_miss$new_steps, 'Missing Values Replaced With \n Mean For Interval')
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-7-2.png)
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-72.png) 
 
 **Answer To Question:**
 The mean and the median are now almost the same after replacing missing values with the mean value for the relevant interval. It makes sense that the median value would now move closer to the mean. So the Median value increased after this method of missing value replacement.
@@ -286,10 +282,10 @@ Below is the panel plot:
 library(lattice)
 xyplot(avg_steps~interval | daytype, data = dat_tbl_summary_miss,
       type = 'l',
-      xlab = 'interval',
-      ylab = 'Number of steps',
+      xlab = 'Interval',
+      ylab = 'Number of Steps',
       layout = c(1,2))
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-9-1.png)
+![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9.png) 
 
