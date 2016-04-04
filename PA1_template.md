@@ -1,7 +1,4 @@
----
-title: "Peer Assessment 1, Reproducable Research"
-output: html_document
----
+# Peer Assessment 1, Reproducable Research
 
 **This document contains the completed work for peer assignment #1 for the Coursera Reproducable Research class.**
 
@@ -72,6 +69,13 @@ Next, I will make a histogram of the total number of steps taken each day, but f
 
 ```r
 library(data.table)
+```
+
+```
+## Warning: package 'data.table' was built under R version 3.2.4
+```
+
+```r
 dat_tbl = data.table(dat)
 dat_tbl_summary = dat_tbl[, list(total_steps = sum(steps, na.rm = T)), 
                           by = date]
@@ -116,7 +120,7 @@ gen_hist = function(x, title){
 gen_hist(dat_tbl_summary$total_steps, 'Number of Steps Taken Per Day')
 ```
 
-![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 
 
 
@@ -163,7 +167,7 @@ legend("topright",
        )
 ```
 
-![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
 ---
 
@@ -211,12 +215,12 @@ head(dat_tbl_summary_miss)
 
 ```
 ##          date new_steps
-## 1: 2012-10-01     10766
-## 2: 2012-10-02       126
-## 3: 2012-10-03     11352
-## 4: 2012-10-04     12116
-## 5: 2012-10-05     13294
-## 6: 2012-10-06     15420
+## 1: 2012-10-01  10766.19
+## 2: 2012-10-02    126.00
+## 3: 2012-10-03  11352.00
+## 4: 2012-10-04  12116.00
+## 5: 2012-10-05  13294.00
+## 6: 2012-10-06  15420.00
 ```
 
 4.  Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
@@ -228,13 +232,13 @@ head(dat_tbl_summary_miss)
 gen_hist(dat_tbl_summary$total_steps, 'Missing Values Removed')
 ```
 
-![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-71.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
 ```r
 gen_hist(dat_tbl_summary_miss$new_steps, 'Missing Values Replaced With \n Mean For Interval')
 ```
 
-![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-72.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-7-2.png)<!-- -->
 
 **Answer To Question:**
 The mean and the median are now almost the same after replacing missing values with the mean value for the relevant interval. It makes sense that the median value would now move closer to the mean. So the Median value increased after this method of missing value replacement.
@@ -287,5 +291,5 @@ xyplot(avg_steps~interval | daytype, data = dat_tbl_summary_miss,
       layout = c(1,2))
 ```
 
-![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
